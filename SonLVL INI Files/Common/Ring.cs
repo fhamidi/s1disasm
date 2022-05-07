@@ -33,7 +33,11 @@ namespace S1ObjectDefinitions.Common
 		public override void Init(ObjectData data)
 		{
 			byte[] artfile = ObjectHelper.OpenArtFile("../artnem/Rings.bin", CompressionType.Nemesis);
-			img = ObjectHelper.MapASMToBmp(artfile, data.CustomProperties.GetValueOrDefault("revision", "0") == "1" ? "../_maps/Rings (JP1).asm" : "../_maps/Rings.asm", 0, 1);
+			// GetValueOrDefault() is ambiguous under Mono, compensate by
+			// calling our extension method explicitly.
+			img = ObjectHelper.MapASMToBmp(artfile,
+				Extensions.GetValueOrDefault(data.CustomProperties, "revision", "0") == "1"
+					? "../_maps/Rings (JP1).asm" : "../_maps/Rings.asm", 0, 1);
 		}
 
 		public override ReadOnlyCollection<byte> Subtypes
