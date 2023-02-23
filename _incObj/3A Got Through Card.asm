@@ -18,8 +18,8 @@ Got_Index:	dc.w Got_ChkPLC-Got_Index
 		dc.w Got_Move2-Got_Index
 		dc.w loc_C766-Got_Index
 
-got_mainX:	equ $30		; position for card to display on
-got_finalX:	equ $32		; position for card to finish on
+got_mainX = $30		; position for card to display on
+got_finalX = $32		; position for card to finish on
 ; ===========================================================================
 
 Got_ChkPLC:	; Routine 0
@@ -34,7 +34,7 @@ Got_Main:
 		moveq	#6,d1
 
 Got_Loop:
-		move.b	#id_GotThroughCard,0(a1)
+		_move.b	#id_GotThroughCard,0(a1)
 		move.w	(a2),obX(a1)	; load start x-position
 		move.w	(a2)+,got_finalX(a1) ; load finish x-position (same as start)
 		move.w	(a2)+,got_mainX(a1) ; load main x-position
@@ -45,7 +45,7 @@ Got_Loop:
 		bne.s	loc_C5CA
 		add.b	(v_act).w,d0	; add act number to frame number
 
-	loc_C5CA:
+loc_C5CA:
 		move.b	d0,obFrame(a1)
 		move.l	#Map_Got,obMap(a1)
 		move.w	#$8580,obGfx(a1)
@@ -61,10 +61,10 @@ Got_Move:	; Routine 2
 		bge.s	Got_ChgPos
 		neg.w	d1
 
-	Got_ChgPos:
+Got_ChgPos:
 		add.w	d1,obX(a0)	; change item's position
 
-	loc_C5FE:
+loc_C5FE:
 		move.w	obX(a0),d0
 		bmi.s	locret_C60E
 		cmpi.w	#$200,d0	; has item moved beyond	$200 on	x-axis?
@@ -220,7 +220,7 @@ Got_Move2:	; Routine $E
 		bge.s	Got_ChgPos2
 		neg.w	d1
 
-	Got_ChgPos2:
+Got_ChgPos2:
 		add.w	d1,obX(a0)	; change item's position
 		move.w	obX(a0),d0
 		bmi.s	locret_C748

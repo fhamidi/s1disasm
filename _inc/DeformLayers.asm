@@ -7,11 +7,11 @@
 
 DeformLayers:
 		tst.b	(f_nobgscroll).w
-		beq.s	@bgscroll
+		beq.s	.bgscroll
 		rts	
 ; ===========================================================================
 
-	@bgscroll:
+	.bgscroll:
 		clr.w	(v_fg_scroll_flags).w
 		clr.w	(v_bg1_scroll_flags).w
 		clr.w	(v_bg2_scroll_flags).w
@@ -19,12 +19,12 @@ DeformLayers:
 		bsr.w	ScrollHoriz
 		bsr.w	ScrollVertical
 		bsr.w	DynamicLevelEvents
-		move.w	(v_screenposx).w,(v_scrposx_dup).w
-		move.w	(v_screenposy).w,(v_scrposy_dup).w
-		move.w	(v_bgscreenposx).w,(v_bgscreenposx_dup_unused).w
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
-		move.w	(v_bg3screenposx).w,(v_bg3screenposx_dup_unused).w
-		move.w	(v_bg3screenposy).w,(v_bg3screenposy_dup_unused).w
+		move.w	(v_screenposx).w,(v_scrposx_vdp).w
+		move.w	(v_screenposy).w,(v_scrposy_vdp).w
+		move.w	(v_bgscreenposx).w,(v_bgscrposx_vdp).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_vdp).w
+		move.w	(v_bg3screenposx).w,(v_bg3scrposx_vdp).w
+		move.w	(v_bg3screenposy).w,(v_bg3scrposy_vdp).w
 		moveq	#0,d0
 		move.b	(v_zone).w,d0
 		add.w	d0,d0
@@ -67,7 +67,7 @@ Deform_GHZ:
 		move.w	d0,(v_bg2screenposy).w
 		move.w	d0,d4
 		bsr.w	ScrollBlock3
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_vdp).w
 		move.w	#$6F,d1
 		sub.w	d4,d1
 		move.w	(v_screenposx).w,d0
@@ -132,7 +132,7 @@ Deform_LZ:
 		ext.l	d5
 		asl.l	#7,d5
 		bsr.w	ScrollBlock1
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_vdp).w
 		lea	(v_hscrolltablebuffer).w,a1
 		move.w	#223,d1
 		move.w	(v_screenposx).w,d0
@@ -178,7 +178,7 @@ Deform_MZ:
 loc_6402:
 		move.w	d0,(v_bg2screenposy).w
 		bsr.w	ScrollBlock3
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_vdp).w
 		lea	(v_hscrolltablebuffer).w,a1
 		move.w	#223,d1
 		move.w	(v_screenposx).w,d0
@@ -208,7 +208,7 @@ Deform_SLZ:
 		ext.l	d5
 		asl.l	#7,d5
 		bsr.w	ScrollBlock2
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_vdp).w
 		bsr.w	Deform_SLZ_2
 		lea	(v_bgscroll_buffer).w,a2
 		move.w	(v_bgscreenposy).w,d0
@@ -321,7 +321,7 @@ Deform_SYZ:
 		asl.l	#1,d5
 		add.l	d1,d5
 		bsr.w	ScrollBlock1
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_vdp).w
 		lea	(v_hscrolltablebuffer).w,a1
 		move.w	#223,d1
 		move.w	(v_screenposx).w,d0
@@ -352,7 +352,7 @@ Deform_SBZ:
 		asl.l	#4,d5
 		asl.l	#1,d5
 		bsr.w	ScrollBlock1
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_vdp).w
 		lea	(v_hscrolltablebuffer).w,a1
 		move.w	#223,d1
 		move.w	(v_screenposx).w,d0
@@ -390,7 +390,7 @@ ScrollHoriz:
 		bset	#2,(v_fg_scroll_flags).w ; screen moves backward
 		rts	
 
-	SH_Forward:
+SH_Forward:
 		bset	#3,(v_fg_scroll_flags).w ; screen moves forward
 
 locret_65B0:
@@ -417,7 +417,7 @@ SH_AheadOfMid:
 		bcs.s	SH_Ahead16	; if yes, branch
 		move.w	#16,d0		; set to 16 if greater
 
-	SH_Ahead16:
+SH_Ahead16:
 		add.w	(v_screenposx).w,d0
 		cmp.w	(v_limitright2).w,d0
 		blt.s	SH_SetScreen
@@ -465,7 +465,7 @@ ScrollVertical:
 		beq.s	SV_NotRolling	; if not, branch
 		subq.w	#5,d0
 
-	SV_NotRolling:
+SV_NotRolling:
 		btst	#1,(v_player+obStatus).w ; is Sonic jumping?
 		beq.s	loc_664A	; if not, branch
 

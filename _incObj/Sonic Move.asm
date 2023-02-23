@@ -9,20 +9,20 @@ Sonic_Move:
 		move.w	(v_sonspeedmax).w,d6
 		move.w	(v_sonspeedacc).w,d5
 		move.w	(v_sonspeeddec).w,d4
-		tst.b	(f_jumponly).w
+		tst.b	(f_slidemode).w
 		bne.w	loc_12FEE
 		tst.w	$3E(a0)
 		bne.w	Sonic_ResetScr
 		btst	#bitL,(v_jpadhold2).w ; is left being pressed?
-		beq.s	@notleft	; if not, branch
+		beq.s	.notleft	; if not, branch
 		bsr.w	Sonic_MoveLeft
 
-	@notleft:
+.notleft:
 		btst	#bitR,(v_jpadhold2).w ; is right being pressed?
-		beq.s	@notright	; if not, branch
+		beq.s	.notright	; if not, branch
 		bsr.w	Sonic_MoveRight
 
-	@notright:
+.notright:
 		move.b	obAngle(a0),d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0		; is Sonic on a	slope?

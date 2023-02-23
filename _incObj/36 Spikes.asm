@@ -11,8 +11,8 @@ Spikes:
 Spik_Index:	dc.w Spik_Main-Spik_Index
 		dc.w Spik_Solid-Spik_Index
 
-spik_origX:	equ $30		; start X position
-spik_origY:	equ $32		; start Y position
+spik_origX = $30		; start X position
+spik_origY = $32		; start Y position
 
 Spik_Var:	dc.b 0,	$14		; frame	number,	object width
 		dc.b 1,	$10
@@ -97,7 +97,7 @@ Spik_Hurt:
 		bne.s	loc_CF20	; If so, skip getting hurt
 		jmp	(loc_E0).l	; This is a copy of the above code that was pushed aside for this
 loc_D5A2:
-	endc
+	endif
 		sub.l	d0,d3
 		move.l	d3,obY(a0)
 		jsr	(HurtSonic).l

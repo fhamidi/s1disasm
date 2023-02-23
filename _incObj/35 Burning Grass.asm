@@ -13,7 +13,7 @@ GFire_Index:	dc.w GFire_Main-GFire_Index
 		dc.w loc_B238-GFire_Index
 		dc.w GFire_Move-GFire_Index
 
-gfire_origX:	equ $2A
+gfire_origX = $2A
 ; ===========================================================================
 
 GFire_Main:	; Routine 0
@@ -57,7 +57,7 @@ loc_B238:	; Routine 2
 		bne.s	loc_B2B0
 		bsr.w	FindNextFreeObj
 		bne.s	loc_B2B0
-		move.b	#id_GrassFire,0(a1)
+		_move.b	#id_GrassFire,0(a1)
 		move.w	obX(a0),obX(a1)
 		move.w	d2,$2C(a1)
 		move.w	$3C(a0),$3C(a1)

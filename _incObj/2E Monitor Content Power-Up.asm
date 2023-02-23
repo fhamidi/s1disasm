@@ -54,7 +54,7 @@ Pow_ChkSonic:
 		cmpi.b	#2,d0		; does monitor contain Sonic?
 		bne.s	Pow_ChkShoes
 
-	ExtraLife:
+ExtraLife:
 		addq.b	#1,(v_lives).w	; add 1 to the number of lives you have
 		addq.b	#1,(f_lifecount).w ; update the lives counter
 		move.w	#bgm_ExtraLife,d0
@@ -100,11 +100,10 @@ Pow_ChkInvinc:
 		move.b	#4,(v_objspace+$2C0+obAnim).w
 		tst.b	(f_lockscreen).w ; is boss mode on?
 		bne.s	Pow_NoMusic	; if yes, branch
-		if Revision=0
-		else
+		if Revision<>0
 			cmpi.w	#$C,(v_air).w
 			bls.s	Pow_NoMusic
-		endc
+		endif
 		move.w	#bgm_Invincible,d0
 		jmp	(PlaySound).l ; play invincibility music
 ; ===========================================================================
@@ -128,7 +127,7 @@ Pow_ChkRings:
 		bset	#2,(v_lifecount).w
 		beq.w	ExtraLife
 
-	Pow_RingSound:
+Pow_RingSound:
 		move.w	#sfx_Ring,d0
 		jmp	(PlaySound).l	; play ring sound
 ; ===========================================================================

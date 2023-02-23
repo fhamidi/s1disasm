@@ -80,7 +80,7 @@ LevelSizeArray:
 ; Ending start location array
 ; ---------------------------------------------------------------------------
 EndingStLocArray:
-		include	"_inc\Start Location Array - Ending.asm"
+		include	"_inc/Start Location Array - Ending.asm"
 
 ; ===========================================================================
 
@@ -116,30 +116,30 @@ LevSz_SonicPos:
 		move.w	d0,(v_player+obY).w ; set Sonic's position on y-axis
 
 SetScreen:
-	LevSz_SkipStartPos:
+LevSz_SkipStartPos:
 		subi.w	#160,d1		; is Sonic more than 160px from left edge?
 		bcc.s	SetScr_WithinLeft ; if yes, branch
 		moveq	#0,d1
 
-	SetScr_WithinLeft:
+SetScr_WithinLeft:
 		move.w	(v_limitright2).w,d2
 		cmp.w	d2,d1		; is Sonic inside the right edge?
 		bcs.s	SetScr_WithinRight ; if yes, branch
 		move.w	d2,d1
 
-	SetScr_WithinRight:
+SetScr_WithinRight:
 		move.w	d1,(v_screenposx).w ; set horizontal screen position
 
 		subi.w	#96,d0		; is Sonic within 96px of upper edge?
 		bcc.s	SetScr_WithinTop ; if yes, branch
 		moveq	#0,d0
 
-	SetScr_WithinTop:
+SetScr_WithinTop:
 		cmp.w	(v_limitbtm2).w,d0 ; is Sonic above the bottom edge?
 		blt.s	SetScr_WithinBottom ; if yes, branch
 		move.w	(v_limitbtm2).w,d0
 
-	SetScr_WithinBottom:
+SetScr_WithinBottom:
 		move.w	d0,(v_screenposy).w ; set vertical screen position
 		bsr.w	BgScrollSpeed
 		moveq	#0,d0
@@ -151,7 +151,7 @@ SetScreen:
 ; ---------------------------------------------------------------------------
 ; Sonic start location array
 ; ---------------------------------------------------------------------------
-StartLocArray:	include	"_inc\Start Location Array - Levels.asm"
+StartLocArray:	include	"_inc/Start Location Array - Levels.asm"
 
 ; ---------------------------------------------------------------------------
 ; Which	256x256	tiles contain loops or roll-tunnels

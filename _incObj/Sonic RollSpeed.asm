@@ -12,20 +12,20 @@ Sonic_RollSpeed:
 		asr.w	#1,d5
 		move.w	(v_sonspeeddec).w,d4
 		asr.w	#2,d4
-		tst.b	(f_jumponly).w
+		tst.b	(f_slidemode).w
 		bne.w	loc_131CC
 		tst.w	$3E(a0)
-		bne.s	@notright
+		bne.s	.notright
 		btst	#bitL,(v_jpadhold2).w ; is left being pressed?
-		beq.s	@notleft	; if not, branch
+		beq.s	.notleft	; if not, branch
 		bsr.w	Sonic_RollLeft
 
-	@notleft:
+.notleft:
 		btst	#bitR,(v_jpadhold2).w ; is right being pressed?
-		beq.s	@notright	; if not, branch
+		beq.s	.notright	; if not, branch
 		bsr.w	Sonic_RollRight
 
-	@notright:
+.notright:
 		move.w	obInertia(a0),d0
 		beq.s	loc_131AA
 		bmi.s	loc_1319E

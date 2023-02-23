@@ -7,10 +7,10 @@ Teleport:
 		move.b	obRoutine(a0),d0
 		move.w	Tele_Index(pc,d0.w),d1
 		jsr	Tele_Index(pc,d1.w)
-		out_of_range.s	@delete
+		out_of_range.s	.delete
 		rts	
 
-	@delete:
+.delete:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 Tele_Index:	dc.w Tele_Main-Tele_Index
@@ -47,7 +47,7 @@ loc_166E0:
 		addi.w	#$20,d1
 		cmpi.w	#$40,d1
 		bcc.s	locret_1675C
-		tst.b	(f_lockmulti).w
+		tst.b	(f_playerctrl).w
 		bne.s	locret_1675C
 		cmpi.b	#7,obSubtype(a0)
 		bne.s	loc_1670E
@@ -56,7 +56,7 @@ loc_166E0:
 
 loc_1670E:
 		addq.b	#2,obRoutine(a0)
-		move.b	#$81,(f_lockmulti).w ; lock controls
+		move.b	#$81,(f_playerctrl).w ; lock controls and disable object interaction
 		move.b	#id_Roll,obAnim(a1) ; use Sonic's rolling animation
 		move.w	#$800,obInertia(a1)
 		move.w	#0,obVelX(a1)
@@ -137,7 +137,7 @@ loc_167DA:
 loc_16800:
 		andi.w	#$7FF,obY(a1)
 		clr.b	obRoutine(a0)
-		clr.b	(f_lockmulti).w
+		clr.b	(f_playerctrl).w
 		move.w	#0,obVelX(a1)
 		move.w	#$200,obVelY(a1)
 		rts	
@@ -216,26 +216,26 @@ loc_168A6:
 ; End of function sub_1681C
 
 ; ===========================================================================
-Tele_Data:	dc.w @type00-Tele_Data, @type01-Tele_Data, @type02-Tele_Data
-		dc.w @type03-Tele_Data, @type04-Tele_Data, @type05-Tele_Data
-		dc.w @type06-Tele_Data, @type07-Tele_Data
-@type00:	dc.w 4,	$794, $98C
-@type01:	dc.w 4,	$94, $38C
-@type02:	dc.w $1C, $794,	$2E8
+Tele_Data:	dc.w .type00-Tele_Data, .type01-Tele_Data, .type02-Tele_Data
+		dc.w .type03-Tele_Data, .type04-Tele_Data, .type05-Tele_Data
+		dc.w .type06-Tele_Data, .type07-Tele_Data
+.type00:	dc.w 4,	$794, $98C
+.type01:	dc.w 4,	$94, $38C
+.type02:	dc.w $1C, $794,	$2E8
 		dc.w $7A4, $2C0, $7D0
 		dc.w $2AC, $858, $2AC
 		dc.w $884, $298, $894
 		dc.w $270, $894, $190
-@type03:	dc.w 4,	$894, $690
-@type04:	dc.w $1C, $1194, $470
+.type03:	dc.w 4,	$894, $690
+.type04:	dc.w $1C, $1194, $470
 		dc.w $1184, $498, $1158
 		dc.w $4AC, $FD0, $4AC
 		dc.w $FA4, $4C0, $F94
 		dc.w $4E8, $F94, $590
-@type05:	dc.w 4,	$1294, $490
-@type06:	dc.w $1C, $1594, $FFE8
+.type05:	dc.w 4,	$1294, $490
+.type06:	dc.w $1C, $1594, $FFE8
 		dc.w $1584, $FFC0, $1560
 		dc.w $FFAC, $14D0, $FFAC
 		dc.w $14A4, $FF98, $1494
 		dc.w $FF70, $1494, $FD90
-@type07:	dc.w 4,	$894, $90
+.type07:	dc.w 4,	$894, $90

@@ -35,7 +35,7 @@ Obj77_Main:	; Routine 0
 Obj77_Loop:
 		jsr	(FindNextFreeObj).l
 		bne.s	Obj77_ShipMain
-		move.b	#id_BossLabyrinth,0(a1)
+		_move.b	#id_BossLabyrinth,0(a1)
 		move.w	obX(a0),obX(a1)
 		move.w	obY(a0),obY(a1)
 
@@ -271,10 +271,9 @@ loc_180F6:
 loc_18112:
 		move.w	#bgm_LZ,d0
 		jsr	(PlaySound).l		; play LZ music
-		if Revision=0
-		else
+		if Revision<>0
 			clr.b	(f_lockscreen).w
-		endc
+		endif
 		bset	#0,obStatus(a0)
 		addq.b	#2,ob2ndRout(a0)
 

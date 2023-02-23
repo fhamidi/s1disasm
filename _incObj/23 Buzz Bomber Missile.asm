@@ -14,7 +14,7 @@ Msl_Index:	dc.w Msl_Main-Msl_Index
 		dc.w Msl_Delete-Msl_Index
 		dc.w Msl_FromNewt-Msl_Index
 
-msl_parent:	equ $3C
+msl_parent = $3C
 ; ===========================================================================
 
 Msl_Main:	; Routine 0
@@ -51,7 +51,7 @@ Msl_Animate:	; Routine 2
 
 Msl_ChkCancel:
 		movea.l	msl_parent(a0),a1
-		cmpi.b	#id_ExplosionItem,0(a1) ; has Buzz Bomber been destroyed?
+		_cmpi.b	#id_ExplosionItem,0(a1) ; has Buzz Bomber been destroyed?
 		beq.s	Msl_Delete	; if yes, branch
 		rts	
 ; End of function Msl_ChkCancel
@@ -60,7 +60,7 @@ Msl_ChkCancel:
 
 Msl_FromBuzz:	; Routine 4
 		btst	#7,obStatus(a0)
-		bne.s	@explode
+		bne.s	.explode
 		move.b	#$87,obColType(a0)
 		move.b	#1,obAnim(a0)
 		bsr.w	SpeedToPos
@@ -74,8 +74,8 @@ Msl_FromBuzz:	; Routine 4
 		rts	
 ; ===========================================================================
 
-	@explode:
-		move.b	#id_MissileDissolve,0(a0) ; change object to an explosion (Obj24)
+.explode:
+		_move.b	#id_MissileDissolve,0(a0) ; change object to an explosion (Obj24)
 		move.b	#0,obRoutine(a0)
 		bra.w	MissileDissolve
 ; ===========================================================================
